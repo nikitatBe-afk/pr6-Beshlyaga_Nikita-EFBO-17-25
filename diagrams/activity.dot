@@ -1,0 +1,49 @@
+digraph ApprovalActivity {
+    graph [rankdir=TB, bgcolor="white", pad=0.25, nodesep=0.3, ranksep=0.4,
+           label="Итоговая Activity-диаграмма — практическая работа №6", labelloc=t,
+           fontname="Times New Roman", fontsize=18];
+    node [shape=box, style="rounded,filled", fontname="Times New Roman", fontsize=11,
+          color="#2F5597", fillcolor="#EAF2F8", margin="0.13,0.09"];
+    edge [fontname="Times New Roman", fontsize=9, color="#555555"];
+
+    start [label="Начало", shape=oval, fillcolor="#E2F0D9", color="#548235"];
+    input [label="Получить параметры заявки", shape=parallelogram,
+           fillcolor="#E4DFEC", color="#7030A0"];
+    amount_valid [label="amount >= 0?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+    risk_valid [label="risk != null?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+    invalid [label="IllegalArgumentException:\nнекорректная сумма или риск",
+             fillcolor="#FCE4D6", color="#C65911"];
+    personal [label="Есть персональные данные?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+    high [label="Риск HIGH?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+    finance_limit [label="amount >= FINANCE_LIMIT\n(500000)?", shape=diamond,
+                   fillcolor="#FFF2CC", color="#BF9000"];
+    urgent [label="Срочная заявка?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+    standard [label="addStandardEligibility:\namount < 50000, !urgent, LOW, !personal?",
+              shape=diamond, fillcolor="#F4CCCC", color="#C00000"];
+    medium [label="Риск MEDIUM?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+    security [label="SECURITY_REVIEW", fillcolor="#FCE4D6", color="#C65911"];
+    director [label="DIRECTOR_REVIEW", fillcolor="#F4CCCC", color="#C00000"];
+    finance [label="FINANCE_REVIEW", fillcolor="#DDEBF7"];
+    fast [label="FAST_TRACK", fillcolor="#E2F0D9", color="#548235"];
+    normal [label="STANDARD", fillcolor="#E2F0D9", color="#548235"];
+    finish [label="Завершение", shape=oval, fillcolor="#E2F0D9", color="#548235"];
+
+    start -> input -> amount_valid;
+    amount_valid -> invalid [label="нет"];
+    amount_valid -> risk_valid [label="да"];
+    risk_valid -> invalid [label="нет"];
+    risk_valid -> personal [label="да"];
+    personal -> security [label="да"];
+    personal -> high [label="нет"];
+    high -> director [label="да"];
+    high -> finance_limit [label="нет"];
+    finance_limit -> finance [label="да"];
+    finance_limit -> urgent [label="нет"];
+    urgent -> fast [label="да"];
+    urgent -> standard [label="нет"];
+    standard -> normal [label="да"];
+    standard -> medium [label="нет"];
+    medium -> director [label="да"];
+    medium -> finance [label="нет"];
+    {security director finance fast normal invalid} -> finish;
+}

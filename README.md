@@ -32,9 +32,9 @@ java -cp out ru.edu.pr03.SelfCheck
 
 ## Диаграммы
 
-Готовые PNG находятся в каталоге `diagrams`. При установленном Graphviz их можно пересобрать из DOT-файлов:
+Итоговые Activity-диаграмма и диаграмма классов находятся в `diagrams` в форматах DOT и PNG. Файлы с суффиксом `_partial` оставлены как исходные заготовки. При установленном Graphviz итоговые PNG можно пересобрать так:
 
 ```bash
-dot -Tpng diagrams/activity_partial.dot -o diagrams/activity_partial.png
-dot -Tpng diagrams/class_partial.dot -o diagrams/class_partial.png
+dot -Tpng diagrams/activity.dot -o diagrams/activity.png
+dot -Tpng diagrams/class.dot -o diagrams/class.png
 ```
